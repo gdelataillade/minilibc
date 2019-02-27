@@ -1,34 +1,26 @@
-bits 64
+bits 64                         ; 64 bits architecture
 
-global my_strlen
+global my_strlen                ; export my_strlen
 
-section .text
-
-; main:
-;     push    rbp
-;     mov     rbp, rsp
-
-;     mov     rdi, str
-;     call    my_strlen
-
-;     leave
-;     ret
+section .text                   ; code section
 
 my_strlen:
-    push    rbp
-    mov     rbp, rsp
-    xor     rcx, rcx
+    push    rbp                 ; prologue
+    mov     rbp, rsp            ; save stack pointer in rbp
+
+    xor     rcx, rcx            ; set the counter rcx to 0
 
 _loop:
-    cmp     BYTE[rdi, rcx], 0
-    je      _end
-    inc     rcx
-    jmp     _loop
+    cmp     BYTE[rdi, rcx], 0   ; compare specific byte of string to 0
+
+    je      _end                ; if the byte is 0, go to _end
+    inc     rcx                 ; else increment rcx, the counter
+    jmp     _loop               ; repeat _loop
 
 _end:
-    mov     rax, rcx
-    leave
-    ret
+    mov     rax, rcx            ; set return value rax to rcx, the length counter
 
-; section .rodata
-;     str:	DB "abc", 0Ah, 0
+    mov     rsp, rbp            ; set stack pointer to rbp
+    pop     rbp                 ; epilogue
+
+    ret                         ; return and exit program
