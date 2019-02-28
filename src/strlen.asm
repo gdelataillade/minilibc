@@ -1,10 +1,10 @@
 bits 64                         ; 64 bits architecture
 
-global my_strlen                ; export my_strlen
+global strlen                ; export strlen
 
 section .text                   ; code section
 
-my_strlen:
+strlen:
     push    rbp                 ; prologue
     mov     rbp, rsp            ; save stack pointer in rbp
 

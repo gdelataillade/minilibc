@@ -5,7 +5,8 @@
 ## Standard Makefile
 ##
 
-SRC		=	./src/strlen.asm
+SRC		=	./src/strlen.asm	\
+			./src/strchr.asm
 
 OBJ		=	$(SRC:.asm=.o)
 
