@@ -1,6 +1,6 @@
-bits 64                         ; 64 bits architecture
+bits    64                      ; 64 bits architecture
 
-global strlen                ; export strlen
+global  strlen                  ; export strlen
 
 section .text                   ; code section
 
@@ -11,7 +11,7 @@ strlen:
     xor     rcx, rcx            ; set the counter rcx to 0
 
 _loop:
-    cmp     BYTE[rdi, rcx], 0   ; compare specific byte of string to 0
+    cmp     byte[rdi, rcx], 0   ; compare specific byte of string to 0
 
     je      _end                ; if the byte is 0, go to _end
     inc     rcx                 ; else increment rcx, the counter

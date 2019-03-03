@@ -1,6 +1,6 @@
 bits 64                         ; 64 bits architecture
 
-global strchr                ; export strchr
+global strchr                   ; export strchr
 
 section .text                   ; code section
 
