@@ -23,4 +23,4 @@ _end:
     mov     rsp, rbp            ; set stack pointer to rbp
     pop     rbp                 ; epilogue
 
-    ret                         ; return and exit program
+    ret                         ; return rax and exit function

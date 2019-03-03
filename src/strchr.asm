@@ -1,6 +1,6 @@
-bits 64                         ; 64 bits architecture
+bits    64                      ; 64 bits architecture
 
-global strchr                   ; export strchr
+global  strchr                  ; export strchr
 
 section .text                   ; code section
 
@@ -16,8 +16,10 @@ strchr:
 _loop:
     cmp     [rdi + rcx], sil    ; compare specific byte of string to arg2 byte
     je      _end                ; if the byte is 0, go to _end
+
     cmp     byte[rdi + rcx], 0  ; check if we reach the end of the string
     je      _end_null           ; if true go to _end_null
+
     inc     rcx                 ; else increment rcx, the counter
     jmp     _loop               ; repeat _loop
 
@@ -36,4 +38,4 @@ _end_null:
     mov     rsp, rbp            ; set stack pointer to rbp
     pop     rbp                 ; epilogue
 
-    ret
+    ret                         ; return 0 and exit function

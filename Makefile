@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, 2019
-## Makefile
+## Makefile - Gautier de Lataillade
 ## File description:
 ## Standard Makefile
 ##
@@ -31,7 +31,7 @@ RM		=	rm -rf
 
 all:		$(NAME)
 
-$(NAME):	$(OBJ)
+$(NAME):	$(OBJ) 
 		@$(LD) $(LDFLAGS) -o $(NAME) $(OBJ)
 		@echo "COMPILATION: OK"
 
