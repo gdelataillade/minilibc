@@ -1,13 +1,14 @@
 bits    64                      ; 64 bits architecture
 
-global  strcmp                  ; export strcmp
+global  strncmp                 ; export strncmp
 
 section .text                   ; code section
 
 ; arg1 = s1 = rdi
 ; arg2 = s2 = rsi
+; arg3 = n = rdx
 
-strcmp:
+strncmp:
     push    rbp                 ; prologue
     mov     rbp, rsp            ; save stack pointer in rbp
 
@@ -17,8 +18,13 @@ strcmp:
     je      _end_zero           ; if null, go to _end_zero
     cmp     rsi, 0              ; check if s2 is null
     je      _end_zero           ; if null, go to _end_zero
+    cmp     rdx, 0              ; check if n is null
+    je      _end_zero           ; if null, go to _end_zero
 
 _loop:
+    cmp     rcx, rdx            ; compare n to counter
+    je      _end_zero           ; if true, go to _end_zero
+
     mov     al,  byte[rdi + rcx]; store specefic byte of s1 at pos rcx in al
     mov     r8b, byte[rsi + rcx]; store specefic byte of s2 at pos rcx in r8b
 
