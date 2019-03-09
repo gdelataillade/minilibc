@@ -18,9 +18,17 @@ strcasecmp:
 
     jmp     _loop
 
-_to_lower:
-    add     al, 32
-    mov     byte[rdi + rcx], al
+_to_lower1:
+    cmp     byte[rdi + rcx], 'A'
+    jle     _continue
+    add     byte[rdi + rcx], 32
+
+_to_lower2:
+    cmp     byte[rsi + rcx], 'A'
+    jle     _continue
+    add     byte[rsi + rcx], 32
+
+_continue:
     inc     rcx
     jmp     _loop
 
@@ -28,16 +36,22 @@ _loop:
     cmp     byte[rdi + rcx], 0  ; store specefic byte of s1 at pos rcx in al
     je      _end                ; if true, go to _end
 
-    mov     al, byte[rdi + rcx]
+    cmp     byte[rsi + rcx], 0
+    je      _end
 
-    cmp     al, 97
-    jl      _to_lower
+    cmp     byte[rdi + rcx], 'Z'
+    jle     _to_lower1
+
+    cmp     byte[rsi + rcx], 'Z'
+    jle     _to_lower2
 
     inc     rcx
     jmp     _loop
 
 _end:
-    mov     rax, rdi            ; set return value as 0
+    add     rdi, rcx            ; ca renvoie un pointeur de s1 modified
+    add     rsi, rcx            ; ca renvoie un pointeur de s2 modified
+    mov     rax, rcx            ; set return value as 0
 
     mov     rsp, rbp            ; set stack pointer to rbp
     pop     rbp                 ; epilogue

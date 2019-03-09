@@ -12,8 +12,8 @@ strlen:
 
 _loop:
     cmp     byte[rdi, rcx], 0   ; compare specific byte of string to 0
-
     je      _end                ; if the byte is 0, go to _end
+
     inc     rcx                 ; else increment rcx, the counter
     jmp     _loop               ; repeat _loop
 
