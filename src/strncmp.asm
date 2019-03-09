@@ -46,7 +46,8 @@ _end_bigger:
     cmp     al, r8b             ; check if r8b is end of string too
     je      _end_zero           ; if true, s1 == s2 so go to _end_zero
 
-    mov     rax, 1              ; else, set return value as 1
+    sub     al, r8b
+    movsx   rax, al              ; else, set return value as 1
 
     mov     rsp, rbp            ; set stack pointer to rbp            
     pop     rbp                 ; epilogue
@@ -54,7 +55,8 @@ _end_bigger:
     ret                         ; return rax and exit function
 
 _end_lower:
-    mov     rax, -1             ; set return value as -1
+    sub     al, r8b
+    movsx   rax, al             ; set return value as -1
 
     mov     rsp, rbp            ; set stack pointer to rbp
     pop     rbp                 ; epilogue
