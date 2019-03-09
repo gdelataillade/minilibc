@@ -12,32 +12,39 @@ strcspn:
     mov     rbp, rsp            ; save stack pointer in rbp
 
     xor     rcx, rcx            ; set the counter rcx to 0
+    xor     r8, r8
 
     cmp     rdi, 0              ; check if str is null
-    je      _end                ; if null, go to _end
+    je      _end_null                ; if null, go to _end
 
     cmp     rsi, 0              ; check if char is null
-    je      _end                ; if null, go to _end
+    je      _end_null                ; if null, go to _end
 
-    mov     sil, byte[rsi + 0]
+_loops1:
+    mov     al, byte[rdi + r8]
 
-_loop:
-    cmp     [rdi + rcx], sil
-    je      _found
+    cmp     al, 0
+    je      _end
+    
+    jmp     _loops2
 
-    cmp     byte[rdi + rcx], 0  ; store specefic byte of s1 at pos rcx in al
-    je      _end_null                ; if true, go to _end
+_loops2:
+    cmp     al, byte[rsi + rcx]
+    je      _end
+
+    cmp     byte[rsi + rcx], 0
+    je      _continue
 
     inc     rcx
-    jmp     _loop
+    jmp     _loops2
 
-_found:
-    mov     rax, rdi
-    add     rax, rcx
+_continue:
+    xor     rcx, rcx
+    inc     r8
+    jmp     _loops1
 
 _end:
-    add     rdi, rcx
-    mov     rax, rdi            ; set return value as 0
+    mov     rax, r8
 
     mov     rsp, rbp            ; set stack pointer to rbp
     pop     rbp                 ; epilogue

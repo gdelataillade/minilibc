@@ -14,10 +14,10 @@ strpbrk:
     xor     rcx, rcx            ; set the counter rcx to 0
 
     cmp     rdi, 0              ; check if str is null
-    je      _end                ; if null, go to _end
+    je      _end_null                ; if null, go to _end
 
     cmp     rsi, 0              ; check if char is null
-    je      _end                ; if null, go to _end
+    je      _end_null                ; if null, go to _end
 
 _loops1:
     mov     al, byte[rdi]
