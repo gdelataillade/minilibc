@@ -33,9 +33,6 @@ _to_lower2:
 _loop1:
     mov     al,  byte[rdi + rcx]; store specefic byte of s1 at pos rcx in al
 
-    cmp     al, 0
-    je      _end_zero           ; todo...
-
     cmp     al, 'Z'
     jle     _to_lower1
 
@@ -44,9 +41,6 @@ _loop1:
 _loop2:
     mov     r8b, byte[rsi + rcx]; store specefic byte of s2 at pos rcx in r8b
     
-    cmp     r8b, 0
-    je      _end_zero
-
     cmp     r8b, 'Z'
     jle     _to_lower2
 
