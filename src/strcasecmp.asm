@@ -14,46 +14,80 @@ strcasecmp:
     xor     rcx, rcx            ; set the counter rcx to 0
 
     cmp     rdi, 0              ; check if s1 is null
-    je      _end                ; if null, go to _end
+    je      _end_zero           ; if null, go to _end_zero
 
-    jmp     _loop
+    jmp     _loop1
 
 _to_lower1:
-    cmp     byte[rdi + rcx], 'A'
-    jle     _continue
-    add     byte[rdi + rcx], 32
+    cmp     al, 'A'
+    jl      _loop2
+    add     al, 32
+    jmp     _loop2
 
 _to_lower2:
-    cmp     byte[rsi + rcx], 'A'
-    jle     _continue
-    add     byte[rsi + rcx], 32
+    cmp     r8b, 'A'
+    jl      _compare
+    add     r8b, 32
+    jmp     _compare
 
-_continue:
-    inc     rcx
-    jmp     _loop
+_loop1:
+    mov     al,  byte[rdi + rcx]; store specefic byte of s1 at pos rcx in al
 
-_loop:
-    cmp     byte[rdi + rcx], 0  ; store specefic byte of s1 at pos rcx in al
-    je      _end                ; if true, go to _end
+    cmp     al, 0
+    je      _end_zero           ; todo...
 
-    cmp     byte[rsi + rcx], 0
-    je      _end
-
-    cmp     byte[rdi + rcx], 'Z'
+    cmp     al, 'Z'
     jle     _to_lower1
 
-    cmp     byte[rsi + rcx], 'Z'
+    jmp     _loop2
+
+_loop2:
+    mov     r8b, byte[rsi + rcx]; store specefic byte of s2 at pos rcx in r8b
+    
+    cmp     r8b, 0
+    je      _end_zero
+
+    cmp     r8b, 'Z'
     jle     _to_lower2
 
+    jmp     _compare
+
+_compare:
+    cmp     al, 0               ; check if al is end of string
+    je      _end_bigger         ; if true, go to _end_bigger
+    cmp     r8b, 0              ; check if r8b is end of string
+    je      _end_lower          ; if true, go to _end_lower
+
+    cmp     al, r8b             ; compare two bytes of s1 and s2
+    jg      _end_bigger         ; if al > r8b go to _end_bigger
+
+    cmp     al, r8b             ; compare two bytes of s1 and s2    
+    jl      _end_lower          ; if al < r8b go to _end_lower
+
     inc     rcx
-    jmp     _loop
+    jmp     _loop1
 
-_end:
-    add     rdi, rcx            ; ca renvoie un pointeur de s1 modified
-    add     rsi, rcx            ; ca renvoie un pointeur de s2 modified
-    mov     rax, rcx            ; set return value as 0
+_end_bigger:
+    cmp     al, r8b             ; check if r8b is end of string too
+    je      _end_zero           ; if true, s1 == s2 so go to _end_zero
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    sub     al, r8b
+    movsx   rax, al              ; else, set return value as 1
 
-    ret                         ; return 0 and exit function
+    jmp     _epilogue    
+
+_end_lower:
+    sub     al, r8b
+    movsx   rax, al             ; set return value as -1
+
+    jmp     _epilogue
+
+_end_zero:
+    xor     rax, rax            ; set return value as 0
+    jmp     _epilogue
+
+_epilogue:
+    mov     rsp, rbp
+    pop     rbp
+
+    ret

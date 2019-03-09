@@ -51,3 +51,54 @@ _end_null:
     pop     rbp                 ; epilogue
 
     ret                         ; return 0 and exit function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; _cedric:
+;     	bits	64
+
+; 	global	strstr:function
+; 	section .text
+
+; strstr:
+; 	push	rbp
+; 	mov	rbp, rsp
+; 	xor	rax, rax
+; 	test	rdi, rdi
+; 	je	return_null
+; 	test	rsi, rsi
+; 	je	return_null
+; 	cmp	byte [rsi], 0h0
+; 	je	return_haystack
+; 	mov	rax, rsi
+
+; loop:
+; 	mov	bl, byte [rdi]
+; 	cmp	bl, 0h0
+; 	je	return_null
+; 	cmp	bl, byte [rsi]
+; 	jne	reset
+; 	cmp	byte [rsi + 1], 0h0
+; 	je	return
+; 	inc	rdi
+; 	inc	rsi
+; 	jmp	loop
+
+; reset:
+; 	mov	rsi, rax
+; 	inc	rdi
+; 	inc	rsi
+; 	jmp	loop
+
+; return_null:
+; 	mov	rax, 0
+; 	jmp	return
+
+; return_haystack:
+; 	mov	rax, rdi
+; 	jmp	return
+
+; return:
+; 	mov	rsp, rbp
+; 	pop	rbp
+; 	ret
