@@ -1,31 +1,33 @@
-bits    64                      ; 64 bits architecture
+bits    64
 
-global  strcspn              ; export strcspn
+global  strcspn
 
-section .text                   ; code section
+section .text
 
-; arg1 = s1 = rdi
-; arg2 = s2 = rsi
+; size_t strcspn(const char *s, const char *reject);
+
+; arg1 = s = rdi
+; arg2 = reject = rsi
 
 strcspn:
-    push    rbp                 ; prologue
-    mov     rbp, rsp            ; save stack pointer in rbp
+    push    rbp
+    mov     rbp, rsp
 
-    xor     rcx, rcx            ; set the counter rcx to 0
+    xor     rcx, rcx
     xor     r8, r8
 
-    cmp     rdi, 0              ; check if str is null
-    je      _end_null                ; if null, go to _end
+    cmp     rdi, 0
+    je      _end_null
 
-    cmp     rsi, 0              ; check if char is null
-    je      _end_null                ; if null, go to _end
+    cmp     rsi, 0
+    je      _end_null
 
 _loops1:
     mov     al, byte[rdi + r8]
 
     cmp     al, 0
     je      _end
-    
+
     jmp     _loops2
 
 _loops2:
@@ -46,15 +48,15 @@ _continue:
 _end:
     mov     rax, r8
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         ; return 0 and exit function
+    ret
 
 _end_null:
-    xor     rax, rax            ; set return value to 0
+    xor     rax, rax
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         ; return 0 and exit function
+    ret

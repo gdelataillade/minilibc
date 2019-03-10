@@ -1,41 +1,46 @@
-bits    64                      ; 64 bits architecture
+bits    64                      
 
-global  strchr                  ; export strchr
+global  strchr                  
 
-section .text                   ; code section
+section .text                   
+
+; char *strchr(const char *s, int c);
+
+; arg1 = s = rdi
+; arg2 = c = rsi
 
 strchr:
-    push    rbp                 ; prologue
-    mov     rbp, rsp            ; save stack pointer in rbp
+    push    rbp                 
+    mov     rbp, rsp            
 
-    xor     rcx, rcx            ; set the counter rcx to 0
+    xor     rcx, rcx            
 
-    cmp     rdi, 0              ; compare string to NULL
-    je      _end_null           ; if string is NULL, go to _end_null
+    cmp     rdi, 0              
+    je      _end_null           
 
 _loop:
-    cmp     [rdi + rcx], sil    ; compare specific byte of string to arg2 byte
-    je      _end                ; if the byte is 0, go to _end
+    cmp     [rdi + rcx], sil    
+    je      _end                
 
-    cmp     byte[rdi + rcx], 0  ; check if we reach the end of the string
-    je      _end_null           ; if true go to _end_null
+    cmp     byte[rdi + rcx], 0  
+    je      _end_null           
 
-    inc     rcx                 ; else increment rcx, the counter
-    jmp     _loop               ; repeat _loop
+    inc     rcx                 
+    jmp     _loop               
 
 _end:
-    add     rdi, rcx            ; sum string to counter
-    mov     rax, rdi            ; set return value rax to rcx, the length counter
+    add     rdi, rcx            
+    mov     rax, rdi            
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp            
+    pop     rbp                 
 
-    ret                         ; return and exit program
+    ret                         
 
 _end_null:
-    xor     rax, rax            ; set return value to 0
+    xor     rax, rax            
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp            
+    pop     rbp                 
 
-    ret                         ; return 0 and exit function
+    ret                         

@@ -1,27 +1,29 @@
-bits    64                      ; 64 bits architecture
+bits    64
 
-global  rindex              ; export rindex
+global  rindex
 
-section .text                   ; code section
+section .text
 
-; arg1 = str = rdi
-; arg2 = char = rsi
+; char *rindex(const char *s, int c);
+
+; arg1 = s = rdi
+; arg2 = c = rsi
 
 rindex:
-    push    rbp                 ; prologue
-    mov     rbp, rsp            ; save stack pointer in rbp
+    push    rbp
+    mov     rbp, rsp
 
-    xor     rcx, rcx            ; set the counter rcx to 0
+    xor     rcx, rcx
 
-    cmp     rdi, 0              ; check if str is null
-    je      _end                ; if null, go to _end
+    cmp     rdi, 0
+    je      _end
 
-    cmp     rsi, 0              ; check if char is null
-    je      _end                ; if null, go to _end
+    cmp     rsi, 0
+    je      _end
 
 _loop:
-    cmp     byte[rdi + rcx], 0  ; store specefic byte of s1 at pos rcx in al
-    je      _end_null                ; if true, go to _end
+    cmp     byte[rdi + rcx], 0
+    je      _end_null
 
     cmp     [rdi + rcx], sil
     je      _found
@@ -35,17 +37,17 @@ _found:
 
 _end:
     add     rdi, rcx
-    mov     rax, rdi            ; set return value as 0
+    mov     rax, rdi
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         ; return 0 and exit function
+    ret
 
 _end_null:
-    xor     rax, rax            ; set return value to 0
+    xor     rax, rax
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         ; return 0 and exit function
+    ret

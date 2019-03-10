@@ -1,23 +1,25 @@
-bits    64                      ; 64 bits architecture
+bits    64
 
-global  strstr              ; export strstr
+global  strstr
 
-section .text                   ; code section
+section .text
 
-; arg1 = s1 = rdi
-; arg2 = s2 = rsi
+; char *strstr(const char *haystack, const char *needle);
+
+; arg1 = haystack = rdi
+; arg2 = needle = rsi
 
 strstr:
-    push    rbp                 ; prologue
-    mov     rbp, rsp            ; save stack pointer in rbp
+    push    rbp
+    mov     rbp, rsp
 
-    xor     rcx, rcx            ; set the counter rcx to 0
+    xor     rcx, rcx
 
-    cmp     rdi, 0              ; check if str is null
-    je      _end                ; if null, go to _end
+    cmp     rdi, 0
+    je      _end
 
-    cmp     rsi, 0              ; check if char is null
-    je      _end                ; if null, go to _end
+    cmp     rsi, 0
+    je      _end
 
 _loop:
     mov     al, byte[rdi]
@@ -45,15 +47,15 @@ _end:
     mov     rax, rdi
     sub     rax, rcx
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         ; return 0 and exit function
+    ret
 
 _end_null:
-    xor     rax, rax            ; set return value to 0
+    xor     rax, rax
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         ; return 0 and exit function
+    ret

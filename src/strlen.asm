@@ -1,26 +1,30 @@
-bits    64                      ; 64 bits architecture
+bits    64
 
-global  strlen                  ; export strlen
+global  strlen
 
-section .text                   ; code section
+section .text
+
+; size_t strlen(const char *s);
+
+; arg1 = s = rdi
 
 strlen:
-    push    rbp                 ; prologue
-    mov     rbp, rsp            ; save stack pointer in rbp
+    push    rbp
+    mov     rbp, rsp
 
-    xor     rcx, rcx            ; set the counter rcx to 0
+    xor     rcx, rcx
 
 _loop:
-    cmp     byte[rdi, rcx], 0   ; compare specific byte of string to 0
-    je      _end                ; if the byte is 0, go to _end
+    cmp     byte[rdi, rcx], 0
+    je      _end
 
-    inc     rcx                 ; else increment rcx, the counter
-    jmp     _loop               ; repeat _loop
+    inc     rcx
+    jmp     _loop
 
 _end:
-    mov     rax, rcx            ; set return value rax to rcx, the length counter
+    mov     rax, rcx
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         ; return rax and exit function
+    ret

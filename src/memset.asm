@@ -1,34 +1,40 @@
-bits    64                      ; 64 bits architecture
+bits    64
 
-global  memset                  ; export memset
+global  memset
 
-section .text                   ; code section
+section .text
+
+; void *memset(void *s, int c, size_t n);
+
+; arg1 = s = rdi
+; arg2 = c = rsi
+; arg2 = n = rdx
 
 memset:
-    push    rbp                 ; prologue
-    mov     rbp, rsp            ; save stack pointer in rbp
+    push    rbp
+    mov     rbp, rsp
 
-    xor     rcx, rcx            ; set the counter rcx to 0
+    xor     rcx, rcx
 
-    cmp     rdi, 0              ; check if pointer is null
-    je      _end                ; if null, go to _end
+    cmp     rdi, 0
+    je      _end
 
-    cmp     rdx, 0              ; check if number of bytes (size) to write is 0
-    je      _end                ; if 0, go to _end
+    cmp     rdx, 0
+    je      _end
 
 _loop:
-    cmp     rdx, 0              ; compare size to 0
-    je      _end                ; if size is 0, go to _end
+    cmp     rdx, 0
+    je      _end
 
-    mov     byte[rdi + rcx], sil; write sil byte in rdi at position rcx
-    inc     rcx                 ; increment rcx, the counter
-    dec     rdx                 ; decrement rdx, the size
-    jmp     _loop               ; go to _loop
+    mov     byte[rdi + rcx], sil
+    inc     rcx
+    dec     rdx
+    jmp     _loop
 
 _end:
-    mov     rax, rdi            ; set return value to pointer
+    mov     rax, rdi
 
-    mov     rsp, rbp            ; set stack pointer to rbp
-    pop     rbp                 ; epilogue
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         ; return rax and exit function
+    ret

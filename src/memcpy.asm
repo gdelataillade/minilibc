@@ -1,25 +1,27 @@
-bits    64                      ; 64 bits architecture
+bits    64
 
-global  memcpy                  ; export memcpy
+global  memcpy
 
-section .text                   ; code section
+section .text
+
+; void *memcpy(void *dest, const void *src, size_t n);
 
 ; arg1 = dest = rdi
 ; arg2 = src = rsi
 ; arg3 = n = rdx
 
 memcpy:
-    push    rbp                 ; prologue
-    mov     rbp, rsp            ; save stack pointer in rbp
+    push    rbp
+    mov     rbp, rsp
 
-    xor     rcx, rcx            ; set the counter rcx to 0
+    xor     rcx, rcx
 
-    cmp     rdi, 0              ; check if pointer dest is null
-    je      _end                ; if true, go to _end
-    cmp     rsi, 0              ; check if pointer src is null
-    je      _end                ; if true, go to _end
-    cmp     rdx, 0              ; check if n is 0
-    je      _end                ; if true, go to _end
+    cmp     rdi, 0
+    je      _end
+    cmp     rsi, 0
+    je      _end
+    cmp     rdx, 0
+    je      _end
 
 _loop:
     cmp     rcx, rdx
@@ -30,7 +32,7 @@ _loop:
 
     mov     r8b, byte[rsi + rcx]
     mov     byte[rdi + rcx], r8b
-    
+
     inc     rcx
     jmp     _loop
 
@@ -40,4 +42,4 @@ _end:
     mov     rsp, rbp
     pop     rbp
 
-    ret                         ; return rax and exit function
+    ret
