@@ -1,6 +1,6 @@
 bits    64
 
-global  memset
+global  memset:function
 
 section .text
 

@@ -1,6 +1,6 @@
 bits    64
 
-global  strlen
+global  strlen:function
 
 section .text
 

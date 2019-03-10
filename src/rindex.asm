@@ -1,6 +1,6 @@
 bits    64
 
-global  rindex
+global  rindex:function
 
 section .text
 

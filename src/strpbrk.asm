@@ -1,6 +1,6 @@
 bits    64
 
-global  strpbrk
+global  strpbrk:function
 
 section .text
 

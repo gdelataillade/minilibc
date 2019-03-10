@@ -1,6 +1,6 @@
 bits    64
 
-global  strncmp
+global  strncmp:function
 
 section .text
 

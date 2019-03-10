@@ -1,6 +1,6 @@
 bits    64
 
-global  memmove
+global  memmove:function
 
 section .text
 

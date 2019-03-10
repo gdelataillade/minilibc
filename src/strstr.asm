@@ -1,6 +1,6 @@
 bits    64
 
-global  strstr
+global  strstr:function
 
 section .text
 

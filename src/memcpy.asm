@@ -1,6 +1,6 @@
 bits    64
 
-global  memcpy
+global  memcpy:function
 
 section .text
 

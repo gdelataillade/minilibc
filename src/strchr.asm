@@ -1,8 +1,8 @@
-bits    64                      
+bits    64
 
-global  strchr                  
+global  strchr:function
 
-section .text                   
+section .text
 
 ; char *strchr(const char *s, int c);
 
@@ -10,37 +10,37 @@ section .text
 ; arg2 = c = rsi
 
 strchr:
-    push    rbp                 
-    mov     rbp, rsp            
+    push    rbp
+    mov     rbp, rsp
 
-    xor     rcx, rcx            
+    xor     rcx, rcx
 
-    cmp     rdi, 0              
-    je      _end_null           
+    cmp     rdi, 0
+    je      _end_null
 
 _loop:
-    cmp     [rdi + rcx], sil    
-    je      _end                
+    cmp     [rdi + rcx], sil
+    je      _end
 
-    cmp     byte[rdi + rcx], 0  
-    je      _end_null           
+    cmp     byte[rdi + rcx], 0
+    je      _end_null
 
-    inc     rcx                 
-    jmp     _loop               
+    inc     rcx
+    jmp     _loop
 
 _end:
-    add     rdi, rcx            
-    mov     rax, rdi            
+    add     rdi, rcx
+    mov     rax, rdi
 
-    mov     rsp, rbp            
-    pop     rbp                 
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         
+    ret
 
 _end_null:
-    xor     rax, rax            
+    xor     rax, rax
 
-    mov     rsp, rbp            
-    pop     rbp                 
+    mov     rsp, rbp
+    pop     rbp
 
-    ret                         
+    ret

@@ -1,6 +1,6 @@
 bits    64
 
-global  strcasecmp
+global  strcasecmp:function
 
 section .text
 
