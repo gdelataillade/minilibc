@@ -21,14 +21,17 @@ strstr:
     cmp     rsi, 0
     je      _end
 
+    ; todo:
+    jmp     _end_null
+
 _loop:
     mov     al, byte[rdi]
 
-    cmp     byte[rsi + rcx], 0
-    je      _end
+    ; cmp     byte[rsi + rcx], 0
+    ; je      _end
 
-    cmp     al, byte[rsi + rcx]
-    jne     _reset
+    ; cmp     al, byte[rsi + rcx]
+    ; jne     _reset
 
     cmp     al, 0
     je      _end_null
@@ -38,10 +41,10 @@ _loop:
 
     jmp     _loop
 
-_reset:
-    xor     rcx, rcx
-    inc     rdi
-    jmp     _loop
+; _reset:
+;     xor     rcx, rcx
+;     inc     rdi
+;     jmp     _loop
 
 _end:
     mov     rax, rdi
