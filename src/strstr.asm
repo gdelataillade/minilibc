@@ -21,43 +21,44 @@ strstr:
     cmp     rsi, 0
     je      _end
 
-    ; todo:
-    jmp     _end_null
-
-_loop:
-    mov     al, byte[rdi]
-
-    ; cmp     byte[rsi + rcx], 0
-    ; je      _end
-
-    ; cmp     al, byte[rsi + rcx]
-    ; jne     _reset
-
-    cmp     al, 0
-    je      _end_null
-
-    inc     rcx
-    inc     rdi
+_set_counter:
+    mov     r9b, [rsi]
+    xor     rcx, rcx
 
     jmp     _loop
 
-; _reset:
-;     xor     rcx, rcx
-;     inc     rdi
-;     jmp     _loop
+_loop:
+    mov     r8b, [rsi + rcx]
+    cmp     r8b, 0
+    je      _end
+
+    mov     r9b, [rdi + rcx]
+
+    cmp     r9b, r8b
+    jne     _set_value
+
+    inc     rcx
+    jmp     _loop
+
+_set_value:
+    cmp     r9b, 0
+    je      _end_null
+
+    inc     rdi
+    jmp     _set_counter
 
 _end:
     mov     rax, rdi
-    sub     rax, rcx
-
-    mov     rsp, rbp
-    pop     rbp
-
-    ret
+    jmp     _return
 
 _end_null:
     xor     rax, rax
+    jmp     _return
 
+_end_zero:
+    mov     rax, 0
+
+_return:
     mov     rsp, rbp
     pop     rbp
 
