@@ -4,7 +4,7 @@ global  rindex:function
 
 section .text
 
-; char *rindex(const char *s, int c);
+; char  *rindex(const char *s, int c);
 
 ; arg1 = s = rdi
 ; arg2 = c = rsi
@@ -18,14 +18,13 @@ rindex:
     cmp     rdi, 0
     je      _end
 
-    cmp     rsi, 0
-    je      _end
-
 _loop:
-    cmp     byte[rdi + rcx], 0
+    mov     al, byte[rdi + rcx]
+
+    cmp     al, 0
     je      _end_null
 
-    cmp     [rdi + rcx], sil
+    cmp     al, sil
     je      _found
 
     inc     rcx
@@ -35,18 +34,18 @@ _found:
     mov     rax, rdi
     add     rax, rcx
 
+    jmp     _return
+
 _end:
     add     rdi, rcx
     mov     rax, rdi
 
-    mov     rsp, rbp
-    pop     rbp
-
-    ret
+    jmp     _return
 
 _end_null:
     xor     rax, rax
 
+_return:
     mov     rsp, rbp
     pop     rbp
 
